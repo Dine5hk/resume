@@ -1,14 +1,18 @@
-# Use an official Nginx image as the base
-FROM nginx:alpine
+# Use the official Node.js image
+FROM node:14
 
-# Set the working directory in the container
-WORKDIR /usr/share/nginx/html
+# Set the working directory
+WORKDIR /app
 
-# Copy the code from your local machine (host) to the container
+# Copy the package.json and install dependencies
+COPY package*.json ./
+RUN npm install
+
+# Copy the rest of the application code
 COPY . .
 
-# Expose port 80 to access the app
-EXPOSE 80
+# Expose port
+EXPOSE 3000
 
-# Nginx will serve the application automatically
-CMD ["nginx", "-g", "daemon off;"]
+# Run the application
+CMD ["npm", "start"]
